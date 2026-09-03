@@ -5,6 +5,30 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2026-09-03
+
+### Changed
+
+- **`orca-handoff` — extract, don't invoke.** The handoff-document rules that were read from
+  a Claude-Code-specific path (`~/.claude/skills/handoff/SKILL.md`, mattpocock/skills) are now
+  vendored as `references/handoff-doc.md` with a `NOTICE.md` (MIT, pinned to `6654f6b`). The
+  file also owns the ten required slots, the "no conversation references" rule, and the
+  cold-reader check that previously lived in `orchestration-loop` §7; that section now points
+  here. The skill stays Orca-only by decision: outside Orca the environment layer collapses to
+  "write a document and let a human open the session", which is what `handoff` already does.
+  Routing ground check after the change: 7/7 (fresh agent reading only the skill files).
+- **`socratic` — usable from other agents and in English.** The intake table accepts material
+  without line numbers (wiki pages, tickets, chat threads: size and read range in sections or
+  messages), and the description carries English triggers plus explicit non-triggers
+  (summaries, translations, single-fact lookups). Trigger measured with 12 queries against
+  `claude -p`: fires 6/6, false triggers 0/6 (one run per query, Sonnet 5).
+
+### Added
+
+- `evals/README.md` for `orca-handoff` (routing ×5, worktree choice, unsubmitted prompt,
+  document slots) and `socratic` (truncated material, self-decoding invariant, decision
+  hand-back, deep-dive return, trigger). Concrete sets stay author-local.
+
 ## [0.1.3] - 2026-09-03
 
 ### Removed
