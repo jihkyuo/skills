@@ -17,6 +17,9 @@ repository (MIT, see [LICENSE](LICENSE)).
 Each file names its source repository, path, commit, and license in a comment on its
 first line, and the skill's [`NOTICE.md`](skills/design-variant-rounds/NOTICE.md) tabulates
 them. Full license texts are in [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
+`skills/orca-handoff/references/handoff-doc.md` carries the five handoff-document rules of
+mattpocock/skills (`skills/productivity/handoff`), translated, with its own
+[`NOTICE.md`](skills/orca-handoff/NOTICE.md).
 
 | Source | Used for | License |
 |---|---|---|
@@ -25,6 +28,7 @@ them. Full license texts are in [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES
 | jakubkrehel/skills · emilkowalski/skills (`prototype`) · mattpocock/skills (`prototype/UI.md`) | variant-round rules (one axis, same harness next round, picker discipline) | MIT |
 | anthropics/knowledge-work-plugins | solution-ideation procedure used for thesis divergence | Apache-2.0 |
 | owl-listener/designer-skills | design-rationale structure used for decision records | MIT |
+| mattpocock/skills (`productivity/handoff`) | handoff-document rules (no duplication, redaction, next-session argument, suggested skills) | MIT |
 
 Why extracts rather than skill invocations: the sources are independent entry points
 with their own personas, output contracts, and interactive gates. Loading several at
