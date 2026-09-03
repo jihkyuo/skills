@@ -1,0 +1,21 @@
+{
+  "name": "jio-skills",
+  "description": "jihkyuo's personal agent skills: design-variant-rounds (parallel design variants with round engines), socratic dialogue, orchestration loop, Orca handoff",
+  "version": "0.1.3",
+  "author": {
+    "name": "지오현",
+    "url": "https://github.com/jihkyuo"
+  },
+  "homepage": "https://github.com/jihkyuo/skills",
+  "repository": "https://github.com/jihkyuo/skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "agent-skills",
+    "design",
+    "variants",
+    "orchestration",
+    "handoff",
+    "socratic"
+  ]
+}

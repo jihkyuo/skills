@@ -1,0 +1,20 @@
+{
+  "name": "jio-skills",
+  "description": "jihkyuo's personal agent skills library",
+  "owner": {
+    "name": "지오현",
+    "github": "jihkyuo"
+  },
+  "plugins": [
+    {
+      "name": "jio-skills",
+      "description": "design-variant-rounds · socratic · orchestration-loop · orca-handoff",
+      "version": "0.1.3",
+      "source": "./",
+      "author": {
+        "name": "지오현",
+        "url": "https://github.com/jihkyuo"
+      }
+    }
+  ]
+}

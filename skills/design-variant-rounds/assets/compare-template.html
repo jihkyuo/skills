@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>compare — design variant rounds</title>
+<!--
+  compare.html 템플릿. 무대(<stage>/)에 복사한 뒤 아래 세 곳만 채운다:
+    1) SLOTS — 슬롯 폴더 이름과 독 라벨 (순서가 곧 키보드 1~N)
+    2) HINT  — 이번 라운드 한 줄(라운드 번호 · 축 · 전환 키)
+    3) 토큰  — 제품 디자인 시스템의 폰트·색을 실값으로 (독은 화면 밖 컨트롤이라 제품과 헷갈리지 않게 회색 계열 유지)
+  규칙: iframe 은 fixed inset:0 + width/height 100% · 전환마다 ?t= 캐시 우회 · 독은 뷰포트 안 제품 화면과 분리.
+-->
+<style>
+  :root{
+    --font: system-ui, -apple-system, "Segoe UI", sans-serif;   /* 토큰: 제품 폰트로 교체 */
+    --bg:#f1f2f3; --ink:#46474c; --muted:#878a93; --line:#dde0e2; --pri:#2e2f33;
+  }
+  html,body{margin:0;padding:0;height:100%;background:var(--bg);font-family:var(--font);}
+  #frame{position:fixed;inset:0;width:100%;height:100%;border:0;}
+  #dock{position:fixed;right:20px;bottom:20px;z-index:99;display:flex;align-items:center;gap:6px;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;
+    padding:6px 10px;box-shadow:0 8px 24px rgba(0,0,0,.12);}
+  #dock button{min-width:38px;height:38px;padding:0 10px;border-radius:999px;border:1px solid transparent;background:transparent;
+    font:600 15px/1 var(--font);color:var(--ink);cursor:pointer;}
+  #dock button:hover{background:var(--bg);}
+  #dock button.on{background:var(--pri);color:#fff;}
+  #dock .sep{width:1px;height:20px;background:var(--line);margin:0 2px;}
+  #dock .rf{font-size:14px;min-width:34px;}
+  #hint{position:fixed;left:20px;bottom:20px;z-index:99;font-size:12px;color:var(--muted);background:rgba(255,255,255,.85);
+    border:1px solid var(--line);border-radius:8px;padding:6px 10px;}
+</style>
+</head>
+<body>
+<iframe id="frame" title="variant"></iframe>
+<div id="hint"></div>
+<div id="dock"></div>
+<script>
+  // 1) 슬롯 — 폴더 이름과 독 라벨. 미착지 슬롯도 미리 넣어 두면 «작업 중» 자리 표시가 열린다.
+  const SLOTS = [
+    { dir: 'a', label: 'A' },
+    { dir: 'b', label: 'B' },
+    { dir: 'c', label: 'C' },
+  ];
+  // 2) 이번 라운드 한 줄
+  const HINT = '라운드 1 · 전환 1~' + SLOTS.length + ' 키 · ↻ 새로고침';
+
+  const frame = document.getElementById('frame');
+  const dock  = document.getElementById('dock');
+  document.getElementById('hint').textContent = HINT;
+
+  SLOTS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.dataset.v = s.dir; b.textContent = s.label; b.title = (i + 1) + ' 키';
+    b.addEventListener('click', () => load(s.dir));
+    dock.appendChild(b);
+  });
+  const sep = document.createElement('span'); sep.className = 'sep'; dock.appendChild(sep);
+  const rf = document.createElement('button'); rf.className = 'rf'; rf.textContent = '↻'; rf.title = '새로고침(캐시 우회)';
+  rf.addEventListener('click', () => load(current()));
+  dock.appendChild(rf);
+
+  function current(){ return new URLSearchParams(location.search).get('v') || SLOTS[0].dir; }
+  function load(v){
+    frame.src = v + '/index.html?t=' + Date.now();           // 캐시 우회
+    dock.querySelectorAll('button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+    history.replaceState(null, '', '?v=' + v);
+  }
+  addEventListener('keydown', e => {
+    if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+    const i = parseInt(e.key, 10);
+    if (i >= 1 && i <= SLOTS.length) load(SLOTS[i - 1].dir);
+  });
+  load(current());
+</script>
+</body>
+</html>
