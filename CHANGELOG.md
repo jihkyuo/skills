@@ -5,6 +5,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **`orchestration-loop` — keep the owner, not the process.** The acceptance period (Phase 3)
+  no longer keeps worker sessions alive until the user accepts the run. What is preserved is
+  the return path: worktree, branch, conversation id, and the ownership-ledger row (which now
+  records the conversation id). Worker sessions stop after merge, verifier sessions stop when
+  their queue is empty, and a re-reported issue restarts a session in the preserved worktree.
+  Sizing gains a live-session cap derived from free memory (about 0.5–0.7 GB per session,
+  counted from real processes), with scale-up gated on OS memory pressure rather than swap
+  usage. Trigger: an idle acceptance period held 16 sessions for 18+ hours on an 18 GB machine,
+  saturating swap until another session's test run could not finish. Not yet evaluated
+  against the previous snapshot; evaluate before tagging.
+
 ## [0.1.4] - 2026-09-03
 
 ### Changed
